@@ -60,7 +60,7 @@ class GUIAlignment:
 
 __font_cache: dict[tuple[str, int], pygame.font.Font] = {}
 def draw_text(dst: pygame.Surface, text: str, alignment: GUIAlignment, font_name: str, size: int, color: pygame.Color = (255, 255, 255)):
-	verify_text_alignment_type(alignment.type)
+	verify_text_alignment_type(alignment.al_type)
 
 	if (font_name, size) in __font_cache:
 		font = __font_cache[(font_name, size)]

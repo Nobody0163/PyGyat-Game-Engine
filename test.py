@@ -4,7 +4,7 @@ import pygame
 
 pygame.init()
 
-win = pygame.display.set_mode((800, 600))
+win = pygame.display.set_mode((200, 60))
 running = True
 
 while running:
