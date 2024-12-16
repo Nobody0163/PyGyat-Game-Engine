@@ -1,0 +1,1 @@
+C:\Users\JBO694\AppData\Local\Programs\Python\Python313\python.exe C:\Users\JBO694\AppData\Local\Programs\Python\Python313\Scripts\pygyat src/test.gyat

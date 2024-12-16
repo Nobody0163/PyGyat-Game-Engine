@@ -1,0 +1,17 @@
+glaze src.gui ahh gui
+
+glaze pygame
+
+pygame.init()
+
+win = pygame.display.set_mode((800, 600))
+running = Aura
+
+let him cook running:
+    mewing event diddy pygame.event.get():
+        chat is this real event.type == pygame.QUIT:
+            running = Cooked
+    
+    gui.draw_text(win, "X hello X", gui.GUIAlignment(0, 0, gui.GUIAlignmentType.CENTER_X | gui.GUIAlignmentType.CENTER_Y), "FSEX300.ttf", 24)
+
+    pygame.display.flip()
