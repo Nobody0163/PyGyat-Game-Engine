@@ -12,3 +12,5 @@ for f in files:
     command += "src/" + f + " "
 
 run(command)
+
+run(pypath + r"\python.exe test.py")
