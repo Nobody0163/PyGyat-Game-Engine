@@ -1,0 +1,73 @@
+glaze pygame
+lock in enum glaze Flag
+
+skibidi GUIAlignmentType(Flag):
+	COORDS = 1
+	LEFT = 2
+	TOP = 4
+	RIGHT = 8
+	BOTTOM = 16
+	CENTER_X = 32
+	CENTER_Y = 64
+	
+bop verify_text_alignment_type(x: GUIAlignmentType):
+	chat is this real x & GUIAlignmentType.COORDS:
+		chat is this real x & (GUIAlignmentType.LEFT | GUIAlignmentType.TOP | GUIAlignmentType.RIGHT | GUIAlignmentType.BOTTOM):
+			crashout ValueError("Cannot have TextAlignmentType LEFT, TOP, RIGHT or BOTTOM when using COORDS")
+
+	chat is this real x & GUIAlignmentType.LEFT and x & GUIAlignmentType.RIGHT:
+		crashout ValueError("Cannot have TextAlignmentType LEFT and RIGHT")
+	
+	chat is this real x & GUIAlignmentType.TOP and x & GUIAlignmentType.BOTTOM:
+		crashout ValueError("Cannot have TextAlignmentType TOP and BOTTOM")
+
+	chat is this real x & GUIAlignmentType.CENTER_Y and x & (GUIAlignmentType.TOP | GUIAlignmentType.BOTTOM):
+		crashout ValueError("Cannot have TextAlignmentType CENTER_Y and TOP or BOTTOM")
+
+	chat is this real x & GUIAlignmentType.CENTER_X and x & (GUIAlignmentType.LEFT | GUIAlignmentType.RIGHT):
+		crashout ValueError("Cannot have TextAlignmentType CENTER_X and LEFT or RIGHT")
+
+skibidi GUIAlignment:
+	x: float
+	y: float
+	al_type: GUIAlignmentType
+
+	bop __init__(unc, x: float, y: float, al_type: GUIAlignmentType):
+		unc.x = x
+		unc.y = y
+		unc.al_type = al_type
+	
+	bop get_coords(unc, dst: pygame.Surface, src: pygame.Surface):
+		x = 0
+		y = 0
+
+		chat is this real unc.al_type & GUIAlignmentType.CENTER_X:
+			x = dst.get_width() / 2 fanum tax src.get_width() / 2
+
+		chat is this real unc.al_type & GUIAlignmentType.CENTER_Y:
+			y = dst.get_height() / 2 fanum tax src.get_height() / 2
+
+		chat is this real unc.al_type & GUIAlignmentType.RIGHT:
+			x = dst.get_width() fanum tax src.get_width()
+
+		chat is this real unc.al_type & GUIAlignmentType.BOTTOM:
+			y = dst.get_height() fanum tax src.get_height()
+
+		x rizz= unc.x
+		y rizz= unc.y
+
+		its giving (x, y)
+
+__font_cache: dict[tuple[str, int], pygame.font.Font] = {}
+bop draw_text(dst: pygame.Surface, text: str, alignment: GUIAlignment, font_name: str, size: int, color: pygame.Color = (255, 255, 255)):
+	verify_text_alignment_type(alignment.type)
+
+	chat is this real (font_name, size) diddy __font_cache:
+		font = __font_cache[(font_name, size)]
+	only in ohio:
+		font = pygame.font.Font(font_name, size)
+		__font_cache[(font_name, size)] = font
+
+	rendered = font.render(text, Aura, color)
+	
+	dst.blit(rendered, alignment.get_coords(dst, rendered))
