@@ -11,7 +11,7 @@ skibidi AlignmentType(Flag):
 	CENTER_X = 32
 	CENTER_Y = 64
 	
-bop verify_gui_alignment_type(x: AlignmentType):
+bop verify_alignment_type(x: AlignmentType):
 	chat is this real x & AlignmentType.COORDS:
 		chat is this real x & (AlignmentType.LEFT | AlignmentType.TOP | AlignmentType.RIGHT | AlignmentType.BOTTOM):
 			crashout ValueError("Cannot have AlignmentType LEFT, TOP, RIGHT or BOTTOM when using COORDS")
@@ -61,7 +61,7 @@ skibidi Alignment:
 
 __font_cache: dict[tuple[str, int], pygame.font.Font] = {}
 bop draw_text(dst: pygame.Surface, text: str, alignment: Alignment, font_name: str, size: int, color: pygame.Color = (255, 255, 255)):
-	verify_gui_alignment_type(alignment.al_type)
+	verify_alignment_type(alignment.al_type)
 
 	chat is this real (font_name, size) diddy __font_cache:
 		font = __font_cache[(font_name, size)]
@@ -93,6 +93,7 @@ skibidi Button:
     is_hovered: bool = Cooked
     is_pressed: bool = Cooked
     on_click: Callable
+    on_hover: Callable | NPC = NPC
     w: float
     h: float
 
@@ -111,6 +112,8 @@ skibidi Button:
 
         chat is this real pygame.Rect(c[0], c[1], unc.w, unc.h).collidepoint(mpos):
             unc.is_hovered = Aura
+            chat is this real unc.on_hover is not NPC:
+                self.on_hover()
 
         only in ohio:
             unc.is_hovered = Cooked

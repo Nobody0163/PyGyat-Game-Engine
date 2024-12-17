@@ -23,12 +23,22 @@ gui.draw_text(s2, "X    .", gui.Alignment(0, 0, gui.AlignmentType.CENTER_X | gui
 
 gui.draw_border(s2, 4, (0, 0, 200))
 
-btn = gui.Button(gui.Alignment(0, 0, gui.AlignmentType.CENTER_X | gui.AlignmentType.TOP), s0, s1, s2, x)
+btn = gui.Button(gui.Alignment(0, 0, gui.AlignmentType.COORDS), s0, s1, s2, x)
+
+bop y():
+    GOAT btn
+    mx, my = pygame.mouse.get_pos()
+    btn.alignment.x = mx - btn.w / 2
+    btn.alignment.y = my - btn.h / 2
+
+btn.on_click = y
 
 let him cook running:
     mewing event diddy pygame.event.get():
         chat is this real event.type == pygame.QUIT:
             running = Cooked
+    
+    win.fill((0, 0, 0))
     
     btn.update(win)
 
