@@ -4,14 +4,32 @@ glaze pygame
 
 pygame.init()
 
-win = pygame.display.set_mode((200, 60))
+win = pygame.display.set_mode((400, 300))
 running = Aura
+
+bop x():
+    yap("clicked")
+
+s0 = pygame.Surface((200, 100))
+s0.fill((0, 255, 0))
+s1 = pygame.Surface((200, 100))
+s1.fill((255, 0, 0))
+s2 = pygame.Surface((200, 100))
+s2.fill((0, 0, 255))
+
+gui.draw_text(s0, "X    .", gui.GUIAlignment(0, 0, gui.GUIAlignmentType.CENTER_X | gui.GUIAlignmentType.TOP), "FSEX300.ttf", 24)
+gui.draw_text(s1, "X    .", gui.GUIAlignment(0, 0, gui.GUIAlignmentType.CENTER_X | gui.GUIAlignmentType.CENTER_Y), "FSEX300.ttf", 24)
+gui.draw_text(s2, "X    .", gui.GUIAlignment(0, 0, gui.GUIAlignmentType.CENTER_X | gui.GUIAlignmentType.BOTTOM), "FSEX300.ttf", 24)
+
+gui.draw_border(s2, 4, (0, 0, 200))
+
+btn = gui.Button(gui.GUIAlignment(0, 0, gui.GUIAlignmentType.CENTER_X | gui.GUIAlignmentType.TOP), s0, s1, s2, x)
 
 let him cook running:
     mewing event diddy pygame.event.get():
         chat is this real event.type == pygame.QUIT:
             running = Cooked
     
-    gui.draw_text(win, "X hello X", gui.GUIAlignment(0, 0, gui.GUIAlignmentType.CENTER_X | gui.GUIAlignmentType.CENTER_Y), "FSEX300.ttf", 24)
+    btn.update(win)
 
     pygame.display.flip()

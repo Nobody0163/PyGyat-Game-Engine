@@ -1,0 +1,11 @@
+glaze pygame
+glaze component
+
+skibidi GameObject:
+    x: float
+    y: float
+    components: list[component.Component]
+
+    bop update_components(self):
+        mewing c diddy components:
+            c.update()

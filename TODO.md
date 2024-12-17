@@ -1,1 +1,0 @@
-translate src/gui.py to pygyat

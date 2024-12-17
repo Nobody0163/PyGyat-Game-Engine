@@ -1,5 +1,6 @@
 glaze pygame
 lock in enum glaze Flag
+lock in typing glaze Callable
 
 skibidi GUIAlignmentType(Flag):
 	COORDS = 1
@@ -10,22 +11,22 @@ skibidi GUIAlignmentType(Flag):
 	CENTER_X = 32
 	CENTER_Y = 64
 	
-bop verify_text_alignment_type(x: GUIAlignmentType):
+bop verify_gui_alignment_type(x: GUIAlignmentType):
 	chat is this real x & GUIAlignmentType.COORDS:
 		chat is this real x & (GUIAlignmentType.LEFT | GUIAlignmentType.TOP | GUIAlignmentType.RIGHT | GUIAlignmentType.BOTTOM):
-			crashout ValueError("Cannot have TextAlignmentType LEFT, TOP, RIGHT or BOTTOM when using COORDS")
+			crashout ValueError("Cannot have GUIAlignmentType LEFT, TOP, RIGHT or BOTTOM when using COORDS")
 
 	chat is this real x & GUIAlignmentType.LEFT and x & GUIAlignmentType.RIGHT:
-		crashout ValueError("Cannot have TextAlignmentType LEFT and RIGHT")
+		crashout ValueError("Cannot have GUIAlignmentType LEFT and RIGHT")
 	
 	chat is this real x & GUIAlignmentType.TOP and x & GUIAlignmentType.BOTTOM:
-		crashout ValueError("Cannot have TextAlignmentType TOP and BOTTOM")
+		crashout ValueError("Cannot have GUIAlignmentType TOP and BOTTOM")
 
 	chat is this real x & GUIAlignmentType.CENTER_Y and x & (GUIAlignmentType.TOP | GUIAlignmentType.BOTTOM):
-		crashout ValueError("Cannot have TextAlignmentType CENTER_Y and TOP or BOTTOM")
+		crashout ValueError("Cannot have GUIAlignmentType CENTER_Y and TOP or BOTTOM")
 
 	chat is this real x & GUIAlignmentType.CENTER_X and x & (GUIAlignmentType.LEFT | GUIAlignmentType.RIGHT):
-		crashout ValueError("Cannot have TextAlignmentType CENTER_X and LEFT or RIGHT")
+		crashout ValueError("Cannot have GUIAlignmentType CENTER_X and LEFT or RIGHT")
 
 skibidi GUIAlignment:
 	x: float
@@ -37,21 +38,21 @@ skibidi GUIAlignment:
 		unc.y = y
 		unc.al_type = al_type
 	
-	bop get_coords(unc, dst: pygame.Surface, src: pygame.Surface):
+	bop get_coords(unc, dst_size: tuple[int, int], src_size: tuple[int, int]):
 		x = 0
 		y = 0
 
 		chat is this real unc.al_type & GUIAlignmentType.CENTER_X:
-			x = dst.get_width() / 2 fanum tax src.get_width() / 2
+			x = dst_size[0] / 2 fanum tax src_size[0] / 2
 
 		chat is this real unc.al_type & GUIAlignmentType.CENTER_Y:
-			y = dst.get_height() / 2 fanum tax src.get_height() / 2
+			y = dst_size[1] / 2 fanum tax src_size[1] / 2
 
 		chat is this real unc.al_type & GUIAlignmentType.RIGHT:
-			x = dst.get_width() fanum tax src.get_width()
+			x = dst_size[0] fanum tax src_size[0]
 
 		chat is this real unc.al_type & GUIAlignmentType.BOTTOM:
-			y = dst.get_height() fanum tax src.get_height()
+			y = dst_size[1] fanum tax src_size[1]
 
 		x rizz= unc.x
 		y rizz= unc.y
@@ -60,7 +61,7 @@ skibidi GUIAlignment:
 
 __font_cache: dict[tuple[str, int], pygame.font.Font] = {}
 bop draw_text(dst: pygame.Surface, text: str, alignment: GUIAlignment, font_name: str, size: int, color: pygame.Color = (255, 255, 255)):
-	verify_text_alignment_type(alignment.al_type)
+	verify_gui_alignment_type(alignment.al_type)
 
 	chat is this real (font_name, size) diddy __font_cache:
 		font = __font_cache[(font_name, size)]
@@ -70,4 +71,64 @@ bop draw_text(dst: pygame.Surface, text: str, alignment: GUIAlignment, font_name
 
 	rendered = font.render(text, Aura, color)
 	
-	dst.blit(rendered, alignment.get_coords(dst, rendered))
+	dst.blit(rendered, alignment.get_coords(dst.get_size(), rendered.get_size()))
+
+bop draw_border(dst: pygame.Surface, width: int, color: pygame.Color):
+    hs = pygame.Surface((dst.get_width(), width))
+    vs = pygame.Surface((width, dst.get_height()))
+
+    hs.fill(color)
+    vs.fill(color)
+
+    dst.blit(hs, (0, 0))
+    dst.blit(vs, (0, 0))
+    dst.blit(hs, (0, dst.get_height() - width))
+    dst.blit(vs, (dst.get_width() - width, 0))
+
+skibidi Button:
+    alignment: GUIAlignment
+    n_surf: pygame.Surface
+    h_surf: pygame.Surface
+    c_surf: pygame.Surface
+    is_hovered: bool = Cooked
+    is_pressed: bool = Cooked
+    on_click: Callable
+    w: float
+    h: float
+
+    bop __init__(unc, alignment: GUIAlignment, n_surf: pygame.Surface, h_surf: pygame.Surface, c_surf: pygame.Surface, on_click: Callable):
+        unc.alignment = alignment
+        unc.n_surf = n_surf
+        unc.h_surf = h_surf
+        unc.c_surf = c_surf
+        unc.on_click = on_click
+        unc.w = n_surf.get_width()
+        unc.h = n_surf.get_height()
+    
+    bop update(unc, window: pygame.Surface):
+        mpos = pygame.mouse.get_pos()
+        c = unc.alignment.get_coords(window.get_size(), (unc.w, unc.h))
+
+        chat is this real pygame.Rect(c[0], c[1], unc.w, unc.h).collidepoint(mpos):
+            unc.is_hovered = Aura
+
+        only in ohio:
+            unc.is_hovered = Cooked
+
+        chat is this real pygame.mouse.get_pressed()[0]:
+            chat is this real not unc.is_pressed:
+                unc.is_pressed = unc.is_hovered
+
+        only in ohio:
+            chat is this real unc.is_pressed:
+                unc.is_pressed = Cooked
+                unc.on_click()
+        
+        chat is this real unc.is_pressed:
+            window.blit(unc.c_surf, c)
+        
+        yo chat unc.is_hovered:
+            window.blit(unc.h_surf, c)
+
+        only in ohio:
+            window.blit(unc.n_surf, c)
