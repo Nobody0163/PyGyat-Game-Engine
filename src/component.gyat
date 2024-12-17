@@ -1,6 +1,6 @@
 lock in abc glaze ABC, abstractmethod
 
 skibidi Component:
-    @abstractmethod
-    bop update(unc, game_object):
-        ...
+	@abstractmethod
+	bop update(unc, game_object):
+		...

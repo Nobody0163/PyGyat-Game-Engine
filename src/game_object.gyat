@@ -2,10 +2,10 @@ glaze pygame
 glaze component
 
 skibidi GameObject:
-    x: float
-    y: float
-    components: list[component.Component]
+	x: float
+	y: float
+	components: list[component.Component]
 
-    bop update_components(unc):
-        mewing c diddy components:
-            c.update()
+	bop update_components(unc):
+		mewing c diddy components:
+			c.update()

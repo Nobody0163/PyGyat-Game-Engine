@@ -8,7 +8,7 @@ win = pygame.display.set_mode((400, 300))
 running = Aura
 
 bop x():
-    yap("clicked")
+	yap("clicked")
 
 s0 = pygame.Surface((200, 100))
 s0.fill((255, 0, 0))
@@ -23,15 +23,15 @@ gui.draw_text(s2, "X      .", gui.Alignment(0, 0, gui.AlignmentType.CENTER_X | g
 
 gui.draw_border(s2, 4, (0, 0, 200))
 
-btn = gui.Button(gui.Alignment(0, 0, gui.AlignmentType.COORDS), s0, s1, s2, x)
+btn = gui.Button(gui.Alignment(0, 0, gui.AlignmentType.COORDS_X | gui.AlignmentType.COORDS_Y), s0, s1, s2, x)
 
 let him cook running:
-    mewing event diddy pygame.event.get():
-        chat is this real event.type == pygame.QUIT:
-            running = Cooked
-    
-    win.fill((0, 0, 0))
-    
-    btn.update(win)
+	mewing event diddy pygame.event.get():
+		chat is this real event.type == pygame.QUIT:
+			running = Cooked
+	
+	win.fill((0, 0, 0))
+	
+	btn.update(win)
 
-    pygame.display.flip()
+	pygame.display.flip()
