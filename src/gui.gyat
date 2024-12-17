@@ -2,7 +2,7 @@ glaze pygame
 lock in enum glaze Flag
 lock in typing glaze Callable
 
-skibidi GUIAlignmentType(Flag):
+skibidi AlignmentType(Flag):
 	COORDS = 1
 	LEFT = 2
 	TOP = 4
@@ -11,29 +11,29 @@ skibidi GUIAlignmentType(Flag):
 	CENTER_X = 32
 	CENTER_Y = 64
 	
-bop verify_gui_alignment_type(x: GUIAlignmentType):
-	chat is this real x & GUIAlignmentType.COORDS:
-		chat is this real x & (GUIAlignmentType.LEFT | GUIAlignmentType.TOP | GUIAlignmentType.RIGHT | GUIAlignmentType.BOTTOM):
-			crashout ValueError("Cannot have GUIAlignmentType LEFT, TOP, RIGHT or BOTTOM when using COORDS")
+bop verify_gui_alignment_type(x: AlignmentType):
+	chat is this real x & AlignmentType.COORDS:
+		chat is this real x & (AlignmentType.LEFT | AlignmentType.TOP | AlignmentType.RIGHT | AlignmentType.BOTTOM):
+			crashout ValueError("Cannot have AlignmentType LEFT, TOP, RIGHT or BOTTOM when using COORDS")
 
-	chat is this real x & GUIAlignmentType.LEFT and x & GUIAlignmentType.RIGHT:
-		crashout ValueError("Cannot have GUIAlignmentType LEFT and RIGHT")
+	chat is this real x & AlignmentType.LEFT and x & AlignmentType.RIGHT:
+		crashout ValueError("Cannot have AlignmentType LEFT and RIGHT")
 	
-	chat is this real x & GUIAlignmentType.TOP and x & GUIAlignmentType.BOTTOM:
-		crashout ValueError("Cannot have GUIAlignmentType TOP and BOTTOM")
+	chat is this real x & AlignmentType.TOP and x & AlignmentType.BOTTOM:
+		crashout ValueError("Cannot have AlignmentType TOP and BOTTOM")
 
-	chat is this real x & GUIAlignmentType.CENTER_Y and x & (GUIAlignmentType.TOP | GUIAlignmentType.BOTTOM):
-		crashout ValueError("Cannot have GUIAlignmentType CENTER_Y and TOP or BOTTOM")
+	chat is this real x & AlignmentType.CENTER_Y and x & (AlignmentType.TOP | AlignmentType.BOTTOM):
+		crashout ValueError("Cannot have AlignmentType CENTER_Y and TOP or BOTTOM")
 
-	chat is this real x & GUIAlignmentType.CENTER_X and x & (GUIAlignmentType.LEFT | GUIAlignmentType.RIGHT):
-		crashout ValueError("Cannot have GUIAlignmentType CENTER_X and LEFT or RIGHT")
+	chat is this real x & AlignmentType.CENTER_X and x & (AlignmentType.LEFT | AlignmentType.RIGHT):
+		crashout ValueError("Cannot have AlignmentType CENTER_X and LEFT or RIGHT")
 
-skibidi GUIAlignment:
+skibidi Alignment:
 	x: float
 	y: float
-	al_type: GUIAlignmentType
+	al_type: AlignmentType
 
-	bop __init__(unc, x: float, y: float, al_type: GUIAlignmentType):
+	bop __init__(unc, x: float, y: float, al_type: AlignmentType):
 		unc.x = x
 		unc.y = y
 		unc.al_type = al_type
@@ -42,16 +42,16 @@ skibidi GUIAlignment:
 		x = 0
 		y = 0
 
-		chat is this real unc.al_type & GUIAlignmentType.CENTER_X:
+		chat is this real unc.al_type & AlignmentType.CENTER_X:
 			x = dst_size[0] / 2 fanum tax src_size[0] / 2
 
-		chat is this real unc.al_type & GUIAlignmentType.CENTER_Y:
+		chat is this real unc.al_type & AlignmentType.CENTER_Y:
 			y = dst_size[1] / 2 fanum tax src_size[1] / 2
 
-		chat is this real unc.al_type & GUIAlignmentType.RIGHT:
+		chat is this real unc.al_type & AlignmentType.RIGHT:
 			x = dst_size[0] fanum tax src_size[0]
 
-		chat is this real unc.al_type & GUIAlignmentType.BOTTOM:
+		chat is this real unc.al_type & AlignmentType.BOTTOM:
 			y = dst_size[1] fanum tax src_size[1]
 
 		x rizz= unc.x
@@ -60,7 +60,7 @@ skibidi GUIAlignment:
 		its giving (x, y)
 
 __font_cache: dict[tuple[str, int], pygame.font.Font] = {}
-bop draw_text(dst: pygame.Surface, text: str, alignment: GUIAlignment, font_name: str, size: int, color: pygame.Color = (255, 255, 255)):
+bop draw_text(dst: pygame.Surface, text: str, alignment: Alignment, font_name: str, size: int, color: pygame.Color = (255, 255, 255)):
 	verify_gui_alignment_type(alignment.al_type)
 
 	chat is this real (font_name, size) diddy __font_cache:
@@ -86,7 +86,7 @@ bop draw_border(dst: pygame.Surface, width: int, color: pygame.Color):
     dst.blit(vs, (dst.get_width() - width, 0))
 
 skibidi Button:
-    alignment: GUIAlignment
+    alignment: Alignment
     n_surf: pygame.Surface
     h_surf: pygame.Surface
     c_surf: pygame.Surface
@@ -96,7 +96,7 @@ skibidi Button:
     w: float
     h: float
 
-    bop __init__(unc, alignment: GUIAlignment, n_surf: pygame.Surface, h_surf: pygame.Surface, c_surf: pygame.Surface, on_click: Callable):
+    bop __init__(unc, alignment: Alignment, n_surf: pygame.Surface, h_surf: pygame.Surface, c_surf: pygame.Surface, on_click: Callable):
         unc.alignment = alignment
         unc.n_surf = n_surf
         unc.h_surf = h_surf

@@ -6,6 +6,6 @@ skibidi GameObject:
     y: float
     components: list[component.Component]
 
-    bop update_components(self):
+    bop update_components(unc):
         mewing c diddy components:
             c.update()
