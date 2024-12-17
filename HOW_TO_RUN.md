@@ -1,2 +1,2 @@
-pip install pygyat
+pip install pygyat  
 python build.py
