@@ -18,8 +18,8 @@ s2 = pygame.Surface((200, 100))
 s2.fill((0, 0, 255))
 
 gui.draw_text(s0, "X    .", gui.Alignment(0, 0, gui.AlignmentType.CENTER_X | gui.AlignmentType.TOP), "FSEX300.ttf", 24)
-gui.draw_text(s1, "X    .", gui.Alignment(0, 0, gui.AlignmentType.CENTER_X | gui.AlignmentType.CENTER_Y), "FSEX300.ttf", 24)
-gui.draw_text(s2, "X    .", gui.Alignment(0, 0, gui.AlignmentType.CENTER_X | gui.AlignmentType.BOTTOM), "FSEX300.ttf", 24)
+gui.draw_text(s1, "X     .", gui.Alignment(0, 0, gui.AlignmentType.CENTER_X | gui.AlignmentType.CENTER_Y), "FSEX300.ttf", 24)
+gui.draw_text(s2, "X      .", gui.Alignment(0, 0, gui.AlignmentType.CENTER_X | gui.AlignmentType.BOTTOM), "FSEX300.ttf", 24)
 
 gui.draw_border(s2, 4, (0, 0, 200))
 
